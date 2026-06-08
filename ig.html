@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>IG Import – Moda Premium | Juazeiro do Norte</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --gold: #F5C518;
+    --gold-dark: #D4A017;
+    --gold-light: #FFD84D;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #222222;
+    --white: #FAFAFA;
+    --gray: #888888;
+    --gray-light: #CCCCCC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s cubic-bezier(.22,1,.36,1);
+    opacity: 0.7;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9997;
+    opacity: 0.3;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.95) 0%, transparent 100%);
+    backdrop-filter: blur(0px);
+    transition: all 0.3s;
+  }
+  nav.scrolled {
+    background: rgba(0,0,0,0.97);
+    backdrop-filter: blur(20px);
+    padding: 14px 60px;
+    border-bottom: 1px solid rgba(245,197,24,0.15);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 46px; height: 46px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 18px;
+    color: var(--black);
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+  }
+  .nav-logo-icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent 60%);
+  }
+  .nav-logo-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    color: var(--white);
+    letter-spacing: 3px;
+  }
+  .nav-logo-text span { color: var(--gold); }
+  .nav-links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--gray-light);
+    text-decoration: none;
+    font-size: 11px;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--black) !important;
+    padding: 10px 24px;
+    border-radius: 2px;
+    font-weight: 600 !important;
+    font-size: 11px !important;
+    letter-spacing: 2px !important;
+    transition: all 0.2s !important;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--gold-light) !important; color: var(--black) !important; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(245,197,24,0.35); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 0 60px;
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(245,197,24,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 20% 80%, rgba(245,197,24,0.04) 0%, transparent 60%);
+  }
+  .hero-lines {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .hero-lines::before {
+    content: '';
+    position: absolute;
+    top: -10%; right: -5%;
+    width: 55%;
+    height: 120%;
+    background: linear-gradient(135deg, rgba(245,197,24,0.06) 0%, transparent 60%);
+    border-left: 1px solid rgba(245,197,24,0.12);
+    transform: skewX(-8deg);
+  }
+  .hero-lines::after {
+    content: '';
+    position: absolute;
+    top: 20%; right: 8%;
+    width: 35%;
+    height: 60%;
+    background: linear-gradient(135deg, rgba(245,197,24,0.04) 0%, transparent 60%);
+    border: 1px solid rgba(245,197,24,0.08);
+    transform: skewX(-8deg);
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 700px;
+    animation: heroIn 1.2s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  @keyframes heroIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 28px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 30px; height: 1px;
+    background: var(--gold);
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(72px, 10vw, 140px);
+    line-height: 0.9;
+    letter-spacing: -1px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .hero-title .gold { color: var(--gold); }
+  .hero-title .outline {
+    -webkit-text-stroke: 2px var(--gold);
+    color: transparent;
+  }
+  .hero-subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(18px, 3vw, 32px);
+    font-weight: 300;
+    letter-spacing: 8px;
+    color: var(--gray);
+    margin-bottom: 40px;
+    text-transform: uppercase;
+  }
+  .hero-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--gray);
+    max-width: 440px;
+    margin-bottom: 50px;
+    font-weight: 300;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--gold);
+    color: var(--black);
+    padding: 16px 36px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    transition: left 0.4s;
+  }
+  .btn-primary:hover::before { left: 100%; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(245,197,24,0.4); }
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--white);
+    padding: 16px 36px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* HERO STATS */
+  .hero-stats {
+    position: absolute;
+    right: 60px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    z-index: 2;
+    animation: statsIn 1.4s 0.3s cubic-bezier(.22,1,.36,1) both;
+  }
+  @keyframes statsIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+  .stat-item {
+    text-align: right;
+    border-right: 2px solid var(--gold);
+    padding-right: 20px;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 42px;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gray);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* SCROLL INDICATOR */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gray);
+    text-transform: uppercase;
+    z-index: 2;
+    animation: fadeIn 2s 1s both;
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .scroll-line {
+    width: 40px; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold));
+    position: relative;
+    overflow: hidden;
+  }
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: var(--gold);
+    animation: scrollMove 2s infinite;
+  }
+  @keyframes scrollMove { to { left: 100%; } }
+
+  /* MARQUEE */
+  .marquee-section {
+    overflow: hidden;
+    background: var(--gold);
+    padding: 14px 0;
+  }
+  .marquee-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding: 0 30px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 20px;
+    letter-spacing: 3px;
+    color: var(--black);
+  }
+  .marquee-dot { width: 6px; height: 6px; background: var(--black); border-radius: 50%; opacity: 0.5; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* SECTION BASE */
+  section { padding: 120px 60px; }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .section-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(48px, 6vw, 86px);
+    line-height: 0.95;
+    color: var(--white);
+    margin-bottom: 20px;
+  }
+  .section-title .gold { color: var(--gold); }
+  .section-title .outline {
+    -webkit-text-stroke: 1.5px rgba(255,255,255,0.3);
+    color: transparent;
+  }
+  .section-sub {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.7;
+    max-width: 500px;
+    font-weight: 300;
+  }
+
+  /* ABOUT */
+  .about { background: var(--dark); position: relative; overflow: hidden; }
+  .about::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(245,197,24,0.05), transparent 70%);
+  }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-logo-display {
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 420px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 0 0 80px rgba(245,197,24,0.25), 0 0 200px rgba(245,197,24,0.08);
+    animation: pulseShadow 3s ease-in-out infinite;
+  }
+  @keyframes pulseShadow {
+    0%, 100% { box-shadow: 0 0 80px rgba(245,197,24,0.25), 0 0 200px rgba(245,197,24,0.08); }
+    50% { box-shadow: 0 0 100px rgba(245,197,24,0.35), 0 0 250px rgba(245,197,24,0.12); }
+  }
+  .about-logo-display::before {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    border: 1px solid rgba(245,197,24,0.2);
+    animation: rotateBorder 15s linear infinite;
+  }
+  .about-logo-display::after {
+    content: '';
+    position: absolute;
+    inset: -40px;
+    border-radius: 50%;
+    border: 1px solid rgba(245,197,24,0.08);
+  }
+  @keyframes rotateBorder { to { transform: rotate(360deg); } }
+  .logo-inner {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .logo-ig {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 120px;
+    line-height: 0.85;
+    color: var(--black);
+    letter-spacing: -2px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+    position: relative;
+    display: inline-block;
+  }
+  .logo-crown {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  }
+  .logo-import {
+    font-family: 'Oswald', sans-serif;
+    font-size: 28px;
+    letter-spacing: 8px;
+    color: var(--black);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .about-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--dark2);
+    border: 1px solid rgba(245,197,24,0.1);
+    padding: 16px 20px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .badge:hover { border-color: var(--gold); transform: translateX(6px); }
+  .badge-icon { font-size: 22px; }
+  .badge-text { font-size: 13px; color: var(--gray-light); font-weight: 400; }
+  .badge-text strong { color: var(--gold); font-weight: 600; }
+
+  /* CONTATO */
+  .contato { background: var(--black); position: relative; }
+  .contato-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .contact-card {
+    background: var(--dark2);
+    border: 1px solid rgba(245,197,24,0.1);
+    border-radius: 4px;
+    padding: 40px 30px;
+    text-align: center;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .contact-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s;
+  }
+  .contact-card:hover { border-color: rgba(245,197,24,0.4); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+  .contact-card:hover::before { transform: scaleX(1); }
+  .contact-type {
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 20px;
+    font-family: 'Oswald', sans-serif;
+  }
+  .contact-avatar {
+    width: 72px; height: 72px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px;
+    color: var(--black);
+    margin: 0 auto 20px;
+    box-shadow: 0 0 30px rgba(245,197,24,0.3);
+    transition: all 0.3s;
+  }
+  .contact-card:hover .contact-avatar { transform: scale(1.1); box-shadow: 0 0 50px rgba(245,197,24,0.5); }
+  .contact-name {
+    font-family: 'Oswald', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--white);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .contact-phone {
+    font-size: 13px;
+    color: var(--gray);
+    margin-bottom: 28px;
+    letter-spacing: 1px;
+    font-weight: 300;
+  }
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #25D366;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    transition: all 0.25s;
+    width: 100%;
+    justify-content: center;
+    margin-top: auto;
+  }
+  .wa-btn:hover { background: #20BA5A; transform: scale(1.03); box-shadow: 0 8px 25px rgba(37,211,102,0.3); }
+  .wa-icon { font-size: 16px; }
+
+  /* GRUPO */
+  .group-section {
+    background: var(--gold);
+    padding: 80px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .group-section::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 600px; height: 600px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 50%;
+  }
+  .group-section::after {
+    content: '';
+    position: absolute;
+    bottom: -40%; left: -5%;
+    width: 400px; height: 400px;
+    background: rgba(0,0,0,0.04);
+    border-radius: 50%;
+  }
+  .group-inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
+  .group-icon { font-size: 56px; margin-bottom: 20px; }
+  .group-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 56px;
+    color: var(--black);
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+  }
+  .group-desc { font-size: 16px; color: rgba(0,0,0,0.65); margin-bottom: 36px; font-weight: 400; line-height: 1.6; }
+  .group-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--black);
+    color: var(--gold);
+    padding: 18px 48px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: all 0.25s;
+  }
+  .group-btn:hover { background: var(--dark2); transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+  .group-members {
+    margin-top: 28px;
+    font-size: 13px;
+    color: rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  /* AVALIAÇÕES */
+  .reviews { background: var(--dark); position: relative; overflow: hidden; }
+  .reviews::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 300px; height: 100%;
+    background: linear-gradient(to left, rgba(245,197,24,0.03), transparent);
+  }
+
+  /* SCORE PANEL */
+  .score-panel {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 60px;
+    align-items: center;
+    background: var(--dark2);
+    border: 1px solid rgba(245,197,24,0.12);
+    border-radius: 8px;
+    padding: 50px 60px;
+    margin-bottom: 60px;
+  }
+  .score-main { text-align: center; }
+  .score-num {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 100px;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+  .score-stars { font-size: 26px; margin: 4px 0; }
+  .score-count { font-size: 13px; color: var(--gray); letter-spacing: 2px; text-transform: uppercase; }
+  .score-bars { display: flex; flex-direction: column; gap: 12px; }
+  .score-bar-row { display: flex; align-items: center; gap: 14px; }
+  .score-bar-label { font-size: 13px; color: var(--gray); width: 12px; text-align: right; font-family: 'Oswald', sans-serif; }
+  .score-bar-track { flex: 1; height: 6px; background: rgba(255,255,255,0.06); border-radius: 3px; overflow: hidden; }
+  .score-bar-fill { height: 100%; background: var(--gold); border-radius: 3px; transition: width 1.5s cubic-bezier(.22,1,.36,1); }
+  .score-bar-pct { font-size: 12px; color: var(--gray); width: 36px; text-align: right; }
+
+  /* REVIEWS GRID */
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .review-card {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 4px;
+    padding: 28px;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .review-card::before {
+    content: '"';
+    position: absolute;
+    top: -10px; left: 16px;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 100px;
+    color: rgba(245,197,24,0.06);
+    line-height: 1;
+  }
+  .review-card:hover { border-color: rgba(245,197,24,0.2); transform: translateY(-4px); }
+  .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 14px; }
+  .review-text { font-size: 14px; color: var(--gray-light); line-height: 1.7; margin-bottom: 20px; font-weight: 300; font-style: italic; }
+  .review-author { display: flex; align-items: center; gap: 12px; }
+  .review-avatar {
+    width: 38px; height: 38px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', cursive;
+    font-size: 16px;
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .review-info .name { font-size: 13px; font-weight: 600; color: var(--white); }
+  .review-info .meta { font-size: 11px; color: var(--gray); margin-top: 2px; letter-spacing: 0.5px; }
+  .review-badge {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: rgba(245,197,24,0.1);
+    border: 1px solid rgba(245,197,24,0.2);
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .verified-badge { color: #25D366; font-size: 11px; margin-top: 2px; }
+
+  /* HORÁRIOS */
+  .horarios { background: var(--black); }
+  .horarios-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; align-items: start; }
+  .hours-table { background: var(--dark2); border: 1px solid rgba(245,197,24,0.1); border-radius: 4px; overflow: hidden; }
+  .hours-header { background: var(--gold); padding: 18px 28px; font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; color: var(--black); }
+  .hours-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 28px; border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.2s; }
+  .hours-row:last-child { border-bottom: none; }
+  .hours-row:hover { background: rgba(255,255,255,0.02); }
+  .hours-row.today { background: rgba(245,197,24,0.06); }
+  .hours-day { font-size: 13px; color: var(--gray-light); font-weight: 400; }
+  .hours-row.today .hours-day { color: var(--gold); font-weight: 600; }
+  .hours-time { font-size: 13px; color: var(--white); font-family: 'Oswald', sans-serif; letter-spacing: 1px; }
+  .hours-closed { color: var(--gray); }
+  .today-pill { background: var(--gold); color: var(--black); font-size: 9px; padding: 2px 8px; border-radius: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-left: 8px; }
+  .map-card { background: var(--dark2); border: 1px solid rgba(245,197,24,0.1); border-radius: 4px; overflow: hidden; }
+  .map-placeholder {
+    height: 220px;
+    background: var(--dark3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .map-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(245,197,24,0.08), transparent 70%);
+  }
+  .map-icon { font-size: 48px; position: relative; z-index: 2; }
+  .map-info { padding: 28px; }
+  .map-address { font-size: 15px; color: var(--gray-light); line-height: 1.7; margin-bottom: 16px; }
+  .map-address strong { color: var(--white); }
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+    font-family: 'Oswald', sans-serif;
+    transition: gap 0.2s;
+  }
+  .map-link:hover { gap: 14px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 60px 60px 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
+  }
+  .footer-brand .logo-text {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 40px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 4px;
+    line-height: 1;
+  }
+  .footer-brand .logo-text span { color: var(--gold); }
+  .footer-brand .tagline { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); margin-bottom: 20px; }
+  .footer-brand p { font-size: 14px; color: var(--gray); line-height: 1.7; font-weight: 300; max-width: 300px; }
+  .footer-col h4 { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 20px; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-col ul a { color: var(--gray); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+  .footer-col ul a:hover { color: var(--gold); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .footer-bottom p { font-size: 12px; color: var(--gray); letter-spacing: 1px; }
+  .footer-social { display: flex; gap: 16px; }
+  .social-btn {
+    width: 38px; height: 38px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .social-btn:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(245,197,24,0.3), transparent);
+    margin: 0 60px;
+  }
+
+  /* ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(.22,1,.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    nav.scrolled { padding: 12px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .hero { padding: 0 24px; min-height: 100vh; }
+    .hero-stats { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-logo-display { max-width: 280px; }
+    .logo-ig { font-size: 80px; }
+    .contato-grid { grid-template-columns: 1fr; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .horarios-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+    .score-panel { grid-template-columns: 1fr; gap: 40px; padding: 30px 24px; }
+    .group-section { padding: 60px 24px; }
+    .marquee-section { display: none; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+    .divider { margin: 0 24px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon">IG</div>
+    <span class="nav-logo-text">IG <span>IMPORT</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#contato">Contato</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+    <li><a href="#horarios">Horários</a></li>
+    <li><a href="https://chat.whatsapp.com/KLlQAd6Amf9CK8lZCWQG2b" target="_blank" class="nav-cta">Grupo VIP</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Juazeiro do Norte · CE · Desde 2020</div>
+    <h1 class="hero-title">
+      <span class="gold">IG</span><br>
+      <span class="outline">IM</span>PORT
+    </h1>
+    <div class="hero-subtitle">Atacado & Varejo</div>
+    <p class="hero-desc">Moda premium para todo o Brasil. As melhores marcas, os melhores preços, entregando qualidade e estilo diretamente para você.</p>
+    <div class="hero-actions">
+      <a href="#contato" class="btn-primary">
+        <span>📲</span> Comprar Agora
+      </a>
+      <a href="https://chat.whatsapp.com/KLlQAd6Amf9CK8lZCWQG2b" target="_blank" class="btn-secondary">
+        <span>💬</span> Grupo VIP
+      </a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">+140K</div>
+      <div class="stat-label">Seguidores</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4,6</div>
+      <div class="stat-label">Avaliação</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">2,9K</div>
+      <div class="stat-label">Grupo VIP</div>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Deslize para explorar</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marqueeTrack">
+    <span class="marquee-item">ATACADO & VAREJO <span class="marquee-dot"></span></span>
+    <span class="marquee-item">FRETE PARA TODO BRASIL <span class="marquee-dot"></span></span>
+    <span class="marquee-item">CAMISAS · CALÇAS · TÊNIS <span class="marquee-dot"></span></span>
+    <span class="marquee-item">VESAT COMPANY <span class="marquee-dot"></span></span>
+    <span class="marquee-item">QUALIDADE PREMIUM <span class="marquee-dot"></span></span>
+    <span class="marquee-item">+140.000 CLIENTES <span class="marquee-dot"></span></span>
+    <span class="marquee-item">ATACADO & VAREJO <span class="marquee-dot"></span></span>
+    <span class="marquee-item">FRETE PARA TODO BRASIL <span class="marquee-dot"></span></span>
+    <span class="marquee-item">CAMISAS · CALÇAS · TÊNIS <span class="marquee-dot"></span></span>
+    <span class="marquee-item">VESAT COMPANY <span class="marquee-dot"></span></span>
+    <span class="marquee-item">QUALIDADE PREMIUM <span class="marquee-dot"></span></span>
+    <span class="marquee-item">+140.000 CLIENTES <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- SOBRE -->
+<section class="about" id="sobre">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-logo-display">
+        <div class="logo-inner">
+          <div class="logo-crown">👑</div>
+          <div class="logo-ig">IG</div>
+          <div class="logo-import">IMPORT</div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:0.15s">
+      <div class="section-label">Quem Somos</div>
+      <h2 class="section-title">MODA QUE<br><span class="gold">VESTE</span><br><span class="outline">O BRASIL</span></h2>
+      <p class="section-sub">A IG Import nasceu com um propósito: levar moda de qualidade e estilo para todo o Brasil, com preços que cabem no bolso. Somos referência em Juazeiro do Norte e reconhecidos em todo o território nacional.</p>
+      <div class="about-badges">
+        <div class="badge"><span class="badge-icon">🏆</span><span class="badge-text">Loja Oficial <strong>VESAT COMPANY</strong> — Qualidade certificada</span></div>
+        <div class="badge"><span class="badge-icon">🇧🇷</span><span class="badge-text">Envio para <strong>todo o Brasil</strong> — Atacado e Varejo</span></div>
+        <div class="badge"><span class="badge-icon">⭐</span><span class="badge-text">Avaliação <strong>4,6 estrelas</strong> — +95 avaliações verificadas</span></div>
+        <div class="badge"><span class="badge-icon">👥</span><span class="badge-text"><strong>+140 mil</strong> seguidores — Comunidade real e ativa</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTATO -->
+<section class="contato" id="contato">
+  <div class="reveal">
+    <div class="section-label">Fale Conosco</div>
+    <h2 class="section-title">NOSSOS<br><span class="gold">ATENDENTES</span></h2>
+    <p class="section-sub">Atendimento personalizado direto pelo WhatsApp. Escolha o canal ideal para o seu tipo de compra.</p>
+  </div>
+  <div class="contato-grid">
+    <!-- Atacado -->
+    <a href="https://wa.me/5588999446711?text=Olá%20Gerlania!%20Vi%20o%20site%20da%20IG%20Import%20e%20tenho%20interesse%20em%20compras%20no%20ATACADO.%20Pode%20me%20ajudar%3F" target="_blank" class="contact-card reveal" style="transition-delay:0.1s">
+      <div class="contact-type">⭐ Atacado</div>
+      <div class="contact-avatar">G</div>
+      <div class="contact-name">Gerlania</div>
+      <div class="contact-phone">+55 (88) 99944-6711</div>
+      <div class="wa-btn"><span class="wa-icon">💬</span>Falar no WhatsApp</div>
+    </a>
+    <!-- Varejo 1 -->
+    <a href="https://wa.me/5588996209468?text=Olá%20Davylla!%20Vi%20o%20site%20da%20IG%20Import%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20produtos.%20Pode%20me%20ajudar%3F" target="_blank" class="contact-card reveal" style="transition-delay:0.2s">
+      <div class="contact-type">🛍️ Varejo</div>
+      <div class="contact-avatar">D</div>
+      <div class="contact-name">Davylla</div>
+      <div class="contact-phone">+55 (88) 99620-9468</div>
+      <div class="wa-btn"><span class="wa-icon">💬</span>Falar no WhatsApp</div>
+    </a>
+    <!-- Varejo 2 -->
+    <a href="https://wa.me/5588999661968?text=Olá%20Mikaele!%20Vi%20o%20site%20da%20IG%20Import%20e%20gostaria%20de%20saber%20mais%20sobre%20os%20produtos.%20Pode%20me%20ajudar%3F" target="_blank" class="contact-card reveal" style="transition-delay:0.3s">
+      <div class="contact-type">🛍️ Varejo</div>
+      <div class="contact-avatar">M</div>
+      <div class="contact-name">Mikaele</div>
+      <div class="contact-phone">+55 (88) 99966-1968</div>
+      <div class="wa-btn"><span class="wa-icon">💬</span>Falar no WhatsApp</div>
+    </a>
+  </div>
+</section>
+
+<!-- GRUPO VIP -->
+<div class="group-section reveal">
+  <div class="group-inner">
+    <div class="group-icon">🚀</div>
+    <h2 class="group-title">GRUPO VIP</h2>
+    <p class="group-desc">Faça parte da nossa comunidade exclusiva. Promoções relâmpago, lançamentos em primeira mão e ofertas que só os membros recebem.</p>
+    <a href="https://chat.whatsapp.com/KLlQAd6Amf9CK8lZCWQG2b" target="_blank" class="group-btn">
+      <span>💬</span> Entrar no Grupo Agora
+    </a>
+    <div class="group-members">👥 2.934 membros ativos</div>
+  </div>
+</div>
+
+<!-- AVALIAÇÕES -->
+<section class="reviews" id="avaliacoes">
+  <div class="reveal">
+    <div class="section-label">Clientes Felizes</div>
+    <h2 class="section-title">O QUE DIZEM<br><span class="gold">SOBRE NÓS</span></h2>
+    <p class="section-sub">Avaliações reais de clientes que confiam na IG Import há anos. Qualidade comprovada, atendimento nota 10.</p>
+  </div>
+
+  <!-- SCORE PANEL -->
+  <div class="score-panel reveal" style="transition-delay:0.1s">
+    <div class="score-main">
+      <div class="score-num">4,6</div>
+      <div class="score-stars">⭐⭐⭐⭐⭐</div>
+      <div class="score-count">+95 avaliações</div>
+    </div>
+    <div class="score-bars">
+      <div class="score-bar-row">
+        <span class="score-bar-label">5</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:78%"></div></div>
+        <span class="score-bar-pct">78%</span>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">4</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:13%"></div></div>
+        <span class="score-bar-pct">13%</span>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">3</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:5%"></div></div>
+        <span class="score-bar-pct">5%</span>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">2</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:2%"></div></div>
+        <span class="score-bar-pct">2%</span>
+      </div>
+      <div class="score-bar-row">
+        <span class="score-bar-label">1</span>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:2%"></div></div>
+        <span class="score-bar-pct">2%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-grid">
+    <div class="review-card reveal" style="transition-delay:0.05s">
+      <div class="review-badge">Google</div>
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">Gosto muito dessa loja, muita variedade, ótimos preços e atendimento 10. Super recomendo para quem quer qualidade sem gastar muito!</p>
+      <div class="review-author">
+        <div class="review-avatar">A</div>
+        <div class="review-info">
+          <div class="name">Ana Paula M.</div>
+          <div class="meta">Juazeiro do Norte · há 2 meses</div>
+          <div class="verified-badge">✅ Compra Verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.1s">
+      <div class="review-badge">Google</div>
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">Experiência ótima, atendimento excelente, diversidade enorme em roupas. Já indiquei para toda a família e todos ficaram satisfeitos. ✅</p>
+      <div class="review-author">
+        <div class="review-avatar">L</div>
+        <div class="review-info">
+          <div class="name">Luciano Dantas</div>
+          <div class="meta">Guia Local · 186 avaliações · há 3 anos</div>
+          <div class="verified-badge">✅ Compra Verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.15s">
+      <div class="review-badge">Google</div>
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">Eu e minha esposa garantimos a camisa branca da seleção brasileira. Muita variedade em times, seleções, bonés e tênis. Qualidade impecável!</p>
+      <div class="review-author">
+        <div class="review-avatar">C</div>
+        <div class="review-info">
+          <div class="name">Carlos Roberto S.</div>
+          <div class="meta">Fortaleza · há 1 mês</div>
+          <div class="verified-badge">✅ Compra Verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.2s">
+      <div class="review-badge">Instagram</div>
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">Comprei pelo Instagram e recebi muito rápido. Calça perfeita, exatamente como nas fotos. Já fiz o segundo pedido! Confiança total na IG Import.</p>
+      <div class="review-author">
+        <div class="review-avatar">F</div>
+        <div class="review-info">
+          <div class="name">Fernanda Costa</div>
+          <div class="meta">Recife · há 3 semanas</div>
+          <div class="verified-badge">✅ Compra Verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.25s">
+      <div class="review-badge">WhatsApp</div>
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">Atendimento no atacado é diferenciado demais. A Gerlania tirou todas as minhas dúvidas, fez o pedido certinho e chegou tudo perfeito. Nota máxima!</p>
+      <div class="review-author">
+        <div class="review-avatar">R</div>
+        <div class="review-info">
+          <div class="name">Rodrigo Alves</div>
+          <div class="meta">São Paulo · há 5 dias</div>
+          <div class="verified-badge">✅ Compra Verificada</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card reveal" style="transition-delay:0.3s">
+      <div class="review-badge">Google</div>
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">Uma das melhores lojas do Ceará. Preços honestos, produto de qualidade e entrega pontual. Já sou cliente fiel há mais de dois anos. Super recomendo! 🏆</p>
+      <div class="review-author">
+        <div class="review-avatar">M</div>
+        <div class="review-info">
+          <div class="name">Maria das Dores</div>
+          <div class="meta">Crato · há 6 meses</div>
+          <div class="verified-badge">✅ Compra Verificada</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HORÁRIOS -->
+<section class="horarios" id="horarios">
+  <div class="reveal">
+    <div class="section-label">Funcionamento</div>
+    <h2 class="section-title">QUANDO<br><span class="gold">ESTAMOS</span><br><span class="outline">ABERTOS</span></h2>
+    <p class="section-sub">Venha nos visitar em Juazeiro do Norte ou entre em contato pelo WhatsApp a qualquer momento.</p>
+  </div>
+  <div class="horarios-grid">
+    <div class="reveal" style="transition-delay:0.1s">
+      <div class="hours-table">
+        <div class="hours-header">🕐 Horário de Funcionamento</div>
+        <div class="hours-row"><span class="hours-day">Segunda-feira</span><span class="hours-time">09:00 – 18:00</span></div>
+        <div class="hours-row"><span class="hours-day">Terça-feira</span><span class="hours-time">09:00 – 18:00</span></div>
+        <div class="hours-row"><span class="hours-day">Quarta-feira</span><span class="hours-time">09:00 – 18:00</span></div>
+        <div class="hours-row today"><span class="hours-day">Quinta-feira <span class="today-pill">Hoje</span></span><span class="hours-time">09:00 – 18:00</span></div>
+        <div class="hours-row"><span class="hours-day">Sexta-feira</span><span class="hours-time">09:00 – 18:00</span></div>
+        <div class="hours-row"><span class="hours-day">Sábado</span><span class="hours-time">08:00 – 16:30</span></div>
+        <div class="hours-row"><span class="hours-day">Domingo</span><span class="hours-time hours-closed">Fechado</span></div>
+      </div>
+    </div>
+    <div class="reveal" style="transition-delay:0.2s">
+      <div class="map-card">
+        <div class="map-placeholder">
+          <span class="map-icon">📍</span>
+        </div>
+        <div class="map-info">
+          <p class="map-address">
+            <strong>IG Import</strong><br>
+            Av. Pres. Castelo Branco, 1176<br>
+            Pirajá, Juazeiro do Norte – CE<br>
+            CEP 63036-230
+          </p>
+          <a href="https://maps.google.com/?q=Av.+Pres.+Castelo+Branco,+1176+Pirajá,+Juazeiro+do+Norte+CE" target="_blank" class="map-link">
+            Ver no Google Maps →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-text"><span>IG</span> IMPORT</div>
+      <div class="tagline">Atacado & Varejo · Todo Brasil</div>
+      <p>Qualidade, estilo e os melhores preços em moda masculina e feminina. Loja oficial Vesat Company em Juazeiro do Norte – CE.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Navegação</h4>
+      <ul>
+        <li><a href="#sobre">Sobre a Loja</a></li>
+        <li><a href="#contato">Fale Conosco</a></li>
+        <li><a href="#avaliacoes">Avaliações</a></li>
+        <li><a href="#horarios">Horários</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contato Rápido</h4>
+      <ul>
+        <li><a href="https://wa.me/5588999446711" target="_blank">📦 Atacado – Gerlania</a></li>
+        <li><a href="https://wa.me/5588996209468" target="_blank">🛍️ Varejo – Davylla</a></li>
+        <li><a href="https://wa.me/5588999661968" target="_blank">🛍️ Varejo – Mikaele</a></li>
+        <li><a href="https://chat.whatsapp.com/KLlQAd6Amf9CK8lZCWQG2b" target="_blank">💬 Grupo VIP</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 IG Import – Todos os direitos reservados · Juazeiro do Norte – CE</p>
+    <div class="footer-social">
+      <a href="https://instagram.com/igimport.juazeiro" target="_blank" class="social-btn">📷</a>
+      <a href="https://wa.me/5588999446711" target="_blank" class="social-btn">💬</a>
+      <a href="https://chat.whatsapp.com/KLlQAd6Amf9CK8lZCWQG2b" target="_blank" class="social-btn">👥</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+  });
+  (function animateRing(){
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animateRing);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ ring.style.transform='translate(-50%,-50%) scale(1.8)'; ring.style.opacity='0.4'; cursor.style.transform='translate(-50%,-50%) scale(0.5)'; });
+    el.addEventListener('mouseleave',()=>{ ring.style.transform='translate(-50%,-50%) scale(1)'; ring.style.opacity='0.7'; cursor.style.transform='translate(-50%,-50%) scale(1)'; });
+  });
+
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  },{threshold:0.12});
+  reveals.forEach(el=>observer.observe(el));
+
+  // Animate score bars on scroll
+  const barObserver = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.querySelectorAll('.score-bar-fill').forEach(bar=>{
+          const w = bar.style.width; bar.style.width='0';
+          setTimeout(()=>{ bar.style.width=w; },100);
+        });
+      }
+    });
+  },{threshold:0.3});
+  document.querySelectorAll('.score-panel').forEach(p=>barObserver.observe(p));
+
+  // Today highlight
+  const today = new Date().getDay(); // 0=Sun,1=Mon,...,6=Sat
+  const rows = document.querySelectorAll('.hours-row');
+  // Clear all today classes
+  rows.forEach(r=>r.classList.remove('today'));
+  // 0=Sun(closed), 1=Mon, 2=Tue, 3=Wed, 4=Thu, 5=Fri, 6=Sat
+  // rows: 0=Mon,1=Tue,2=Wed,3=Thu,4=Fri,5=Sat,6=Sun
+  const dayMap={1:0,2:1,3:2,4:3,5:4,6:5,0:6};
+  const idx = dayMap[today];
+  if(rows[idx]) rows[idx].classList.add('today');
+  // Also update the "Hoje" pill
+  document.querySelectorAll('.today-pill').forEach(p=>p.remove());
+  if(rows[idx]){
+    const daySpan = rows[idx].querySelector('.hours-day');
+    if(daySpan){ const pill=document.createElement('span'); pill.className='today-pill'; pill.textContent='Hoje'; daySpan.appendChild(pill); }
+  }
+
+  // Marquee duplicate
+  const track = document.getElementById('marqueeTrack');
+  if(track){ const clone=track.innerHTML; track.innerHTML=clone+clone; }
+</script>
+</body>
+</html>
